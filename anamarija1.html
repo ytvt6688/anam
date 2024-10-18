@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sirena</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('background.jpg');
+            background-size: cover;
+            font-family: 'Georgia', serif;
+            margin: 0;
+            overflow: hidden;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
+        .percentage-container {
+            text-align: center;
+            padding: 40px;
+            border: 2px solid #fff;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            animation: float 3s infinite alternate ease-in-out;
+        }
+        .percentage-button {
+            font-size: 24px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            background-color: #ff69b4;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .percentage-button:hover {
+            background-color: #ff1493;
+        }
+        .percentage {
+            font-size: 60px;
+            color: #ff69b4;
+            opacity: 0;
+            transform: scale(0);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        .percentage.reveal {
+            opacity: 1;
+            transform: scale(1);
+            animation: reveal 1s forwards;
+        }
+        h1 {
+            color: #333;
+            font-weight: normal;
+            margin-bottom: 20px;
+        }
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 14px;
+            text-align: center;
+        }
+        .cucumber {
+            position: absolute;
+            width: 50px; /* Adjust the size as needed */
+            height: auto; /* Maintain aspect ratio */
+            animation: cucumbers 1.5s infinite;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-20px);
+            }
+        }
+        @keyframes reveal {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        @keyframes cucumbers {
+            0% {
+                transform: scale(0) translate(-50%, -50%);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5) translate(-50%, -50%);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="percentage-container">
+        <h1>Ej slatkice!!! Danas je šansa da se preselim u Zagreb :</h1>
+        <button class="percentage-button" onclick="revealPercentage()">Pritisni me</button>
+        <div class="percentage" id="percentage">💖 27.5% 💖</div>
+    </div>
+    <div class="footer">
+        <p>Made with 💖 for my pickle enthusiast</p>
+    </div>
+    <script>
+        let clickCount = 0;
+        let percentage = 27.5; // Starting percentage
+        let popupTriggered = false;
+
+        function revealPercentage() {
+            const percentageElement = document.getElementById('percentage');
+            percentageElement.classList.toggle('reveal');
+            createCucumbers();
+
+            clickCount++;
+
+            // Check if the popup should be shown
+            if (!popupTriggered && clickCount >= 5 && clickCount <= 10) {
+                popupTriggered = true;
+                alert("Prikini upirat, može samo bit manje.");
+            }
+
+            // Adjust percentage based on clicks
+            if (clickCount === 15) {
+                percentage -= 5;
+                updatePercentage(percentage);
+            } else if (clickCount === 25) {
+                percentage = 0;
+                updatePercentage(percentage);
+            }
+        }
+
+        function updatePercentage(newPercentage) {
+            const percentageElement = document.getElementById('percentage');
+            percentageElement.textContent = `💖 ${newPercentage}% 💖`;
+        }
+        
+        function createCucumbers() {
+            const cucumber = document.createElement('img');
+            cucumber.src = 'cucumber.png'; // Make sure this path is correct
+            cucumber.classList.add('cucumber');
+            document.body.appendChild(cucumber);
+            cucumber.style.left = Math.random() * window.innerWidth + 'px';
+            cucumber.style.top = Math.random() * window.innerHeight + 'px';
+            setTimeout(() => {
+                cucumber.remove();
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
